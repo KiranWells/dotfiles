@@ -1,0 +1,150 @@
+//  _        ___                                      ___ _
+// | |      / __)_                                   / __|_)
+// | | ____| |__| |_ _ _ _ ____      ____ ___  ____ | |__ _  ____    ____ ___  ____
+// | |/ _  )  __)  _) | | |    \    / ___) _ \|  _ \|  __) |/ _  |  / ___) _ \|  _ \
+// | ( (/ /| |  | |_| | | | | | |  ( (__| |_| | | | | |  | ( ( | |_| |  | |_| | | | |
+// |_|\____)_|   \___)____|_|_|_|   \____)___/|_| |_|_|  |_|\_|| (_)_|   \___/|_| |_|
+// A WindowManager for Adventurers                         (____/
+// For info about configuration please visit https://github.com/leftwm/leftwm/wiki
+
+#![enable(implicit_some)]
+(
+    // The modkey is the most important setting. It is used by many other settings and controls how key bindings work. For more info please read this post on x11 Mod keys: https://stackoverflow.com/questions/19376338/xcb-keyboard-button-masks-meaning
+    modkey: "Mod4",
+    // The mousekey is similarly quite important. This value can be used to determine which key, when held, can assist a mouse drag in resizing or moving a floating window or making a window float or tile. For more info please read this post on x11 Mod keys.
+    mousekey: "Mod4",
+    // Workspaces are how you view tags (desktops). A workspace is a area on a screen or most likely the whole screen. in this areas you can view a given tag.
+    workspaces: [],
+    // Tags are the names of the virtual desktops were windows live. In other window managers these are sometimes just called desktops. You can rename them to any unicode string including symbols/icons from popular icon libraries such as font-awesome.
+    tags: [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+    ],
+    // You can configure a max_window_width to limit the width of the tiled windows (or rather, the width of columns in a layout). This feature comes in handy when working on ultra-wide monitors where you don't want a single window to take the complete workspace width.
+    max_window_width: 0.75,
+    // Leftwm supports an ever-growing amount layouts, which define the way that windows are tiled in the workspace.
+    // Default (all layouts, check this enum for the latest list):
+    // layouts: [
+    //     MainAndDeck,
+    //     MainAndVertStack,
+    //     MainAndHorizontalStack,
+    //     GridHorizontal,
+    //     EvenHorizontal,
+    //     EvenVertical,
+    //     Fibonacci,
+    //     CenterMain,
+    //     CenterMainBalanced,
+    //     Monocle,
+    //     RightWiderLeftStack,
+    //     LeftWiderRightStack,
+    // ]
+    layouts: [
+        MainAndVertStack,
+        Monocle,
+    ],
+    // Leftwm now has 2 layout modes, Workspace and Tag. These determine how layouts are remembered. When in Workspace mode, layouts will be remembered per workspace. When in Tag mode, layouts are remembered per tag.
+    layout_mode: Tag,
+    insert_behavior: Bottom,
+    // A scratchpad is a set of windows which you can call to any tag and hide it when not needed. These windows can be any set of application which can be run from a terminal. To call a scratchpad you will require a keybind for ToggleScratchPad. When you want to manipulate the currently focused scratchpad, other commands like ReleaseScratchPad, AttachScratchPad and NextScratchPadWindow/PrevScratchPadWindow are available.
+    scratchpad: [
+        (name: "Htop", value: "kitty -e htop", x: 0.2, y: 0.1, height: 0.8, width: 0.6),
+        (name: "Bottom", value: "kitty -e btm -g", x: 0.2, y: 0.1, height: 0.8, width: 0.6),
+        (name: "Tempfile", value: "kitty -e micro /home/kiran/tempfile", x: 0.2, y: 0.1, height: 0.8, width: 0.6),
+    ],
+    // Window rules allow to define how a window matching some properties should be spawned. As of now, a window can be matched by two properties:
+    // - window_class, corresponding to the property WM_CLASS of a window in a X server.
+    // - window_title, corresponding to the _NET_WM_NAME or the WM_NAME of a window. Both will be inspected if a window rule is defined by window_title. This takes precedence over window_class, since it is more specific.
+    // The properties of a window can be inspected by launching xprop on a terminal and clicking the desired window.
+    window_rules: [
+        (window_class: "Zoom", window_title: None, spawn_on_tag: None, spawn_floating: true),
+        (window_class: "", window_title: None, spawn_on_tag: None, spawn_floating: true),
+        (window_class: "join*", window_title: None, spawn_on_tag: None, spawn_floating: true),
+    ],
+    // Starting with LeftWM 0.2.7, the behaviour of SwapTags was changed such that if you are on a tag, such as tag 1, and then SwapTags to tag 1, LeftWM will go to the previous tag instead. This behaviour can be disabled with disable_current_tag_swap:
+    // - Default: disable_current_tag_swap: false
+    // - Example: disable_current_tag_swap: true (returns to old behaviour)
+    disable_current_tag_swap: false,
+    // This allows you to make it so tiled windows can not be moved or resized with the mouse. However the mouse will still be able to interact with floating windows.
+    disable_tile_drag: false,
+    // If snapping is enabled, floating windows are snapped (repositioned to a tile) when the window is dragged close to a Workspace edge. This might lead to undesired behaviour when dragging windows near the edge of the screen, so it is disabled by default.
+    disable_window_snap: true,
+    // LeftWM now has 3 focusing behaviours (Sloppy, ClickTo, and Driven) and 2 options (focus_new_windows, sloppy_mouse_follows_focus), which alter the way focus is handled. 
+    focus_behaviour: Sloppy,
+    focus_new_windows: true,
+    sloppy_mouse_follows_focus: false,
+    // All other commands are keybindings. you can think of key bindings as a way of telling LeftWM to do something when a key combination is pressed. There are several types of key bindings. In order for the keybind event to fire, the keys listed in the modifier section should be held down, and the key in the key section should then be pressed. Here is a list of all keys LeftWM can use as a modifier or a key.
+    keybind: [
+        // Window manager controls
+        (command: HardReload, value: "", modifier: ["modkey", "Shift"], key: "r"),
+        (command: SoftReload, value: "", modifier: ["modkey"], key: "r"),
+        (command: CloseWindow, value: "", modifier: ["modkey"], key: "q"),
+        (command: ToggleFloating, value: "", modifier: ["modkey"], key: "t"),
+        (command: FocusWindowUp, value: "", modifier: ["modkey"], key: "Tab"),
+        (command: FocusWindowDown, value: "", modifier: ["modkey", "Shift"], key: "Tab"),
+        (command: MoveWindowUp, value: "", modifier: ["modkey"], key: "a"),
+        (command: IncreaseMainWidth, value: "5", modifier: ["modkey"], key: "bracketright"),
+        (command: DecreaseMainWidth, value: "5", modifier: ["modkey"], key: "bracketleft"),
+        (command: NextLayout, value: "", modifier: ["modkey", "Control"], key: "Tab"),
+        (command: PreviousLayout, value: "", modifier: ["modkey", "Control", "Shift"], key: "Tab"),
+        (command: RotateTag, value: "", modifier: ["modkey", "Shift"], key: "a"),
+        (command: FocusNextTag, value: "", modifier: ["modkey", "Control"], key: "Right"),
+        (command: FocusPreviousTag, value: "", modifier: ["modkey", "Control"], key: "Left"),
+        (command: ToggleFullScreen, value: "", modifier: ["modkey"], key: "f"),
+
+        // Commands
+        (command: Execute, value: "loginctl lock-session", modifier: ["modkey"], key: "l"),
+
+        // Desktops
+        (command: MoveToTag, value: "1", modifier: ["modkey", "Shift"], key: "1"),
+        (command: MoveToTag, value: "2", modifier: ["modkey", "Shift"], key: "2"),
+        (command: MoveToTag, value: "3", modifier: ["modkey", "Shift"], key: "3"),
+        (command: MoveToTag, value: "4", modifier: ["modkey", "Shift"], key: "4"),
+        (command: MoveToTag, value: "5", modifier: ["modkey", "Shift"], key: "5"),
+        (command: MoveToTag, value: "6", modifier: ["modkey", "Shift"], key: "6"),
+        (command: MoveToTag, value: "7", modifier: ["modkey", "Shift"], key: "7"),
+        (command: MoveToTag, value: "8", modifier: ["modkey", "Shift"], key: "8"),
+        (command: MoveToTag, value: "9", modifier: ["modkey", "Shift"], key: "9"),
+        (command: MoveToTag, value: "10", modifier: ["modkey", "Shift"], key: "0"),
+        (command: GotoTag, value: "1", modifier: ["modkey"], key: "1"),
+        (command: GotoTag, value: "2", modifier: ["modkey"], key: "2"),
+        (command: GotoTag, value: "3", modifier: ["modkey"], key: "3"),
+        (command: GotoTag, value: "4", modifier: ["modkey"], key: "4"),
+        (command: GotoTag, value: "5", modifier: ["modkey"], key: "5"),
+        (command: GotoTag, value: "6", modifier: ["modkey"], key: "6"),
+        (command: GotoTag, value: "7", modifier: ["modkey"], key: "7"),
+        (command: GotoTag, value: "8", modifier: ["modkey"], key: "8"),
+        (command: GotoTag, value: "9", modifier: ["modkey"], key: "9"),
+        (command: GotoTag, value: "10", modifier: ["modkey"], key: "0"),
+
+        // Scratchpads
+        (command: ToggleScratchPad, value: "Htop", modifier: ["modkey", "Shift"], key: "h"),
+        (command: ToggleScratchPad, value: "Bottom", modifier: ["modkey", "Shift"], key: "b"),
+        (command: ToggleScratchPad, value: "Tempfile", modifier: ["modkey", "Shift"], key: "t"),
+
+        // Applications
+        (command: Execute, value: "kitty", modifier: ["modkey"], key: "Return"),
+        (command: Execute, value: "dunstctl history-pop", modifier: ["modkey"], key: "grave"),
+
+        // Function Keys
+        (command: Execute, value: "volume-up", modifier: [], key: "XF86XK_AudioRaiseVolume"),
+        (command: Execute, value: "volume-down", modifier: [], key: "XF86XK_AudioLowerVolume"),
+        (command: Execute, value: "amixer set Master toggle", modifier: [], key: "XF86XK_AudioMute"),
+        (command: Execute, value: "backlight-up", modifier: [], key: "XF86XK_MonBrightnessUp"),
+        (command: Execute, value: "backlight-down", modifier: [], key: "XF86XK_MonBrightnessDown"),
+        (command: Execute, value: "flameshot gui", modifier: [], key: "Print"),
+
+        // Theme specific
+        (command: Execute, value: "rofi -no-lazy-grab -show drun -theme ~/.config/leftwm/themes/current/rofi/launcher.rasi", modifier: ["modkey"], key: "space"),
+        (command: Execute, value: "eww -c ~/.config/leftwm/themes/current/eww open-many background-overlay quit", modifier: ["modkey", "Shift"], key: "q"),
+    ],
+    // ??
+    state_path: None,
+)

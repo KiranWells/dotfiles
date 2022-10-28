@@ -1,0 +1,101 @@
+# system
+
+# use this to echo just the package names
+# grep -v '#' packages | grep -P '[a-z]' | sort | uniq
+
+base-devel
+network-manager
+zsh
+acpilight
+ddcci-driver-linux
+# rgb controls
+openrgb
+
+## video drivers
+mesa lib32-mesa
+xf86-video-amdgpu
+vulkan-radeon lib32-vulkan-radeon
+libva-mesa-driver lib32-libva-mesa-driver
+mesa-vdpau lib32-mesa-vdpau
+
+#yay - needed before this is run
+debtap
+
+# useful, not needed
+alien_package_converter 
+
+# applications
+
+## configuration
+
+antigen
+
+### Required:
+
+leftwm
+eww
+
+### Required for boot config:
+
+plymouth
+grub
+
+### Requred for full functionality:
+
+rofi
+feh
+bluez-tools
+xdotool
+alsa-utils
+i3lock-color
+jq
+
+### Configured if present:
+
+picom
+xorg-setxkbmap
+kitty
+firefox
+dunst
+stalonetray
+
+## essential
+
+nautilus
+visual-studio-code-bin
+neovim
+
+## widely used
+
+zathura
+gimp
+krita
+blender
+inkscape
+virtualbox
+discord
+libreoffice-fresh
+steam
+
+## utilities
+
+pavucontrol
+lxappearance
+flameshot
+nm-connection-editor
+xarchiver
+vlc
+wine
+qbittorrent
+peek
+
+## current nice-to-haves
+
+youtube-music
+minecraft-launcher
+
+## development
+
+rustup
+python
+npm
